@@ -19,6 +19,7 @@
 		BB22039724A9732A00595364 /* PhotoViewerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB22039624A9732A00595364 /* PhotoViewerVC.swift */; };
 		BB22039A24A9929D00595364 /* NewConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB22039924A9929D00595364 /* NewConversationVC.swift */; };
 		BB22039C24A992BC00595364 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB22039B24A992BC00595364 /* ProfileVC.swift */; };
+		BB267BC924AA46D1003A6DAA /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB267BC824AA46D1003A6DAA /* Extentions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		BB22039624A9732A00595364 /* PhotoViewerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerVC.swift; sourceTree = "<group>"; };
 		BB22039924A9929D00595364 /* NewConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationVC.swift; sourceTree = "<group>"; };
 		BB22039B24A992BC00595364 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		BB267BC824AA46D1003A6DAA /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 			children = (
 				BB22037124A970A100595364 /* AppDelegate.swift */,
 				BB22037324A970A100595364 /* SceneDelegate.swift */,
+				BB267BC824AA46D1003A6DAA /* Extentions.swift */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -114,8 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				BB22037524A970A100595364 /* ConversationVC.swift */,
-				BB22038F24A9712100595364 /* LoginVC.swift */,
-				BB22039424A972FB00595364 /* RegisterVC.swift */,
+				BB22039D24A9938C00595364 /* login */,
 				BB22039624A9732A00595364 /* PhotoViewerVC.swift */,
 				BB22038B24A970FE00595364 /* VideoPlayerVC.swift */,
 				BB22039924A9929D00595364 /* NewConversationVC.swift */,
@@ -131,6 +133,15 @@
 				BB22037C24A970A200595364 /* LaunchScreen.storyboard */,
 			);
 			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		BB22039D24A9938C00595364 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				BB22038F24A9712100595364 /* LoginVC.swift */,
+				BB22039424A972FB00595364 /* RegisterVC.swift */,
+			);
+			path = login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,6 +217,7 @@
 			files = (
 				BB22039A24A9929D00595364 /* NewConversationVC.swift in Sources */,
 				BB22037624A970A100595364 /* ConversationVC.swift in Sources */,
+				BB267BC924AA46D1003A6DAA /* Extentions.swift in Sources */,
 				BB22037224A970A100595364 /* AppDelegate.swift in Sources */,
 				BB22039C24A992BC00595364 /* ProfileVC.swift in Sources */,
 				BB22037424A970A100595364 /* SceneDelegate.swift in Sources */,

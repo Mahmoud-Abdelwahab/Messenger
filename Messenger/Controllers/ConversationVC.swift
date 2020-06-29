@@ -8,13 +8,28 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+enum Keys { static let loginKey = "LOGGED_IN"}
+
+class ConversationVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
-
+  
+  
+    override func viewDidAppear(_ animated: Bool) {
+        
+        let isLogedIn = UserDefaults.standard.bool(forKey: Keys.loginKey)
+        
+        if !isLogedIn{
+            let loginVC = LoginVC()
+            let navControler = UINavigationController(rootViewController: loginVC)
+            navControler.modalPresentationStyle = .fullScreen
+            present(navControler , animated: false)//false to cancel the delay caused by the animation
+            
+        }
+    }
 
 }
 
