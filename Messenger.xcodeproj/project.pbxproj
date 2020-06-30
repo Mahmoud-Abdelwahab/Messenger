@@ -20,6 +20,7 @@
 		BB22039A24A9929D00595364 /* NewConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB22039924A9929D00595364 /* NewConversationVC.swift */; };
 		BB22039C24A992BC00595364 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB22039B24A992BC00595364 /* ProfileVC.swift */; };
 		BB267BC924AA46D1003A6DAA /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB267BC824AA46D1003A6DAA /* Extentions.swift */; };
+		BB267BCB24AAD665003A6DAA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB267BCA24AAD665003A6DAA /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		BB22039924A9929D00595364 /* NewConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationVC.swift; sourceTree = "<group>"; };
 		BB22039B24A992BC00595364 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		BB267BC824AA46D1003A6DAA /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
+		BB267BCA24AAD665003A6DAA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 				BB22038624A970FE00595364 /* Views */,
 				BB22039324A972AF00595364 /* Controllers */,
 				BB22037F24A970A200595364 /* Info.plist */,
+				BB267BCA24AAD665003A6DAA /* GoogleService-Info.plist */,
 			);
 			path = Messenger;
 			sourceTree = "<group>";
@@ -203,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB22037E24A970A200595364 /* LaunchScreen.storyboard in Resources */,
+				BB267BCB24AAD665003A6DAA /* GoogleService-Info.plist in Resources */,
 				BB22037B24A970A200595364 /* Assets.xcassets in Resources */,
 				BB22037924A970A100595364 /* Main.storyboard in Resources */,
 			);

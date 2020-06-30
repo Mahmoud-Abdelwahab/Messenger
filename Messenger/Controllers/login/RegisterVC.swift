@@ -54,6 +54,9 @@ class RegisterVC: UIViewController {
         logoImage.image                      = UIImage(named: "add-user")
         logoImage.tintColor                  = .gray
         logoImage.contentMode                = .scaleAspectFit
+        logoImage.layer.borderColor          = UIColor.lightGray.cgColor
+        logoImage.layer.borderWidth          = 2
+        logoImage.layer.masksToBounds        = true
         logoImage.isUserInteractionEnabled   = true // don't forget to enable user interaction haaaaa to make gesture works
         return logoImage
     }()
@@ -155,6 +158,7 @@ class RegisterVC: UIViewController {
         scrollView.frame    = view.bounds
         let size = scrollView.width/3
         profileImageView.frame = CGRect(x: size , y: 20, width: size, height: size)
+        profileImageView.layer.cornerRadius = profileImageView.width/2.0 // this to make the image circular corners
         
         firstNameField.frame = CGRect(x: 30, y: profileImageView.bottom + 40, width: scrollView.width-60, height: 52)
         
@@ -249,16 +253,26 @@ extension RegisterVC : UITextFieldDelegate {
 }
 
 
-extension RegisterVC : UIImagePickerControllerDelegate{
+extension RegisterVC : UIImagePickerControllerDelegate , UINavigationControllerDelegate{
+    
     // this UIImagePickerControllerDelegate delegate get the resuts when user taking a picture or selecting a picture
+    // conforming the naigation controler to navigate to take OR choose  Photo
     ///************ don't forget to set the two permisson in the info.plist ******************************//
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // this called when the user take OR select a photo
+        // after choosing or taking the image it returen in a dictionary didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
+        
+        picker.dismiss(animated: true, completion: nil)
+        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else{return}
+        //editedImage gie us the croped image user has selected ... UIImagePickerController.InfoKey.originalImage
+        self.profileImageView.image = selectedImage
+        
         
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // this called when user cancel the operation
+        picker.dismiss(animated: true, completion: nil)
     }
     
     
@@ -275,16 +289,39 @@ extension RegisterVC : UIImagePickerControllerDelegate{
                                             handler: nil))
         actionSheet.addAction(UIAlertAction(title:"Take Photo",
                                             style: .default,
-                                            handler: {_ in
+                                            handler: {[weak self]_ in
+                                                  guard let self = self else {return}
+                                                self.presentCamera()
                                                 
         }))
         actionSheet.addAction(UIAlertAction(title: "choose Photo",
                                             style: .default,
-                                            handler: { _ in
+                                            handler: {[weak self] _ in
+                                                guard let self = self else {return}
+                                                self.presentPhotoPicker()
                                             
         }))
         
         present(actionSheet , animated: true)
     }
     
+    ///************ custom fuction to make the code more readable
+    
+    func presentCamera()  {
+        
+        let cameraVC = UIImagePickerController() // this which the didFinishMediaWithOption takes
+        cameraVC.sourceType = .camera
+        cameraVC.delegate   = self
+        cameraVC.allowsEditing  = true // to allow yu min & max  image and crop image
+        present(cameraVC , animated: true)
+    }
+    
+    
+    func presentPhotoPicker() {
+        let photoPickerVC = UIImagePickerController() // this which the didFinishMediaWithOption takes
+        photoPickerVC.sourceType = .photoLibrary
+        photoPickerVC.delegate   = self
+        photoPickerVC.allowsEditing  = true
+        present(photoPickerVC , animated: true)
+    }
 }
