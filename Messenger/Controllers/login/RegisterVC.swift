@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class RegisterVC: UIViewController {
     
@@ -195,7 +196,16 @@ class RegisterVC: UIViewController {
             return
         }
         
-        //FireBase login
+        //FireBase registration
+        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) {[weak self](result, error) in
+            guard let self = self else {return}
+            guard let result = result , error == nil else {
+                print("Error creating user ...")
+                return
+            }
+            print(result.user.email)
+            self.navigationController?.popViewController(animated: true)
+        }
         
     }
     

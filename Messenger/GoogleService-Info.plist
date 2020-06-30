@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:459736257965:ios:c4b0935f8e02824cb0fd24</string>
+	<string>1:459736257965:ios:a5c7960c486e152fb0fd24</string>
 	<key>DATABASE_URL</key>
 	<string>https://messenger-a43af.firebaseio.com</string>
 </dict>
