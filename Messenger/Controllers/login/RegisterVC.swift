@@ -8,9 +8,12 @@
 
 import UIKit
 import Firebase
-
+import JGProgressHUD
 class RegisterVC: UIViewController {
     
+    
+    private let spinner = JGProgressHUD(style: .dark)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemPink
@@ -196,13 +199,23 @@ class RegisterVC: UIViewController {
             return
         }
         
+        //show custom spinner
+        spinner.show(in: view)
+
+        
         //FireBase registration
         FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) {[weak self](result, error) in
             guard let self = self else {return}
             
+            
+            
             //check user existance before
             DataBaseManager.shared.isUserExists(With: email) {[weak self] (isExists) in
                 guard let self = self else {return}
+               
+                DispatchQueue.main.async {
+                                   self.spinner.dismiss()
+                               }
                 
                 guard !isExists else {
                     // user already Exists

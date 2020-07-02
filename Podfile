@@ -11,6 +11,9 @@ target 'Messenger' do
    pod 'FBSDKLoginKit'
    pod 'GoogleSignIn'
    pod 'MessageKit'
+   pod 'JGProgressHUD' # show nice spinner better thsn activity indicatore
    # Pods for Messenger
+   pod 'RealmSwift'
+   pod 'SDWebImage'
 
 end

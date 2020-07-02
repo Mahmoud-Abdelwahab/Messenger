@@ -10,8 +10,11 @@ import UIKit
 import Firebase
 import FBSDKLoginKit
 import GoogleSignIn
+import JGProgressHUD
 class LoginVC: UIViewController {
     
+    
+    private let spinner = JGProgressHUD(style: .dark)
     private var loginObserver : NSObjectProtocol?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -185,10 +188,13 @@ class LoginVC: UIViewController {
             alertUserLogin()
             return
         }
-        
+        spinner.show(in: view)
         //FireBase login
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) {[weak self] (authResult, error) in
+            
             guard let self = self else{return}
+            
+            DispatchQueue.main.async {self.spinner.dismiss()}
             
             guard let result = authResult , error == nil else {
                 print("Error  in signing in the user ...")
