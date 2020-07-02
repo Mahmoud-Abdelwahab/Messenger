@@ -41,3 +41,9 @@ extension UIView{
        
     
 }
+
+/// estentions for notification
+
+extension Notification.Name{
+    static let didLogInNotifiacation = Notification.Name("didLogInNotification")
+}

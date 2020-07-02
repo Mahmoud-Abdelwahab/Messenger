@@ -23,7 +23,7 @@ class RegisterVC: UIViewController {
         
         creatDismissKeyboardTapGesture()
         profileImageGesture()// don't forget to enable user interaction haaaaa to make gesture works
-      
+        
         
         ///********* when u hit   return button in the keyboard ether it's called done pr next or whatever  i want to perform an action so  i will conform UITextFieldDelegate
         emailField.delegate    = self
@@ -199,18 +199,33 @@ class RegisterVC: UIViewController {
         //FireBase registration
         FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) {[weak self](result, error) in
             guard let self = self else {return}
-            guard let result = result , error == nil else {
-                print("Error creating user ...")
-                return
+            
+            //check user existance before
+            DataBaseManager.shared.isUserExists(With: email) {[weak self] (isExists) in
+                guard let self = self else {return}
+                
+                guard !isExists else {
+                    // user already Exists
+                    self.alertUserLogin(message: " This User Already Exists ")
+                    return
+                }
+                // user does'nt exists create new user
+                guard result != nil , error == nil else {
+                    print("Error creating user ...")
+                    return
+                }
+                
+                DataBaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
+                self.dismiss(animated: true)
+                
+                
             }
-            print(result.user.email)
-            self.navigationController?.popViewController(animated: true)
         }
         
     }
     
-    func alertUserLogin() {
-        let alert = UIAlertController(title: "WOoOoPs!", message: "please Enter All Information to create your account 😅 ", preferredStyle: .alert)
+    func alertUserLogin(message : String = "please Enter All Information to create your account 😅 "  ) {
+        let alert = UIAlertController(title: "WOoOoPs!", message: message , preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (alert) in
             print(" action after Dismissing ...!")
         }))
@@ -227,8 +242,8 @@ class RegisterVC: UIViewController {
     func profileImageGesture(){
         
         let gestureTap = UITapGestureRecognizer(target: self, action: #selector(didTapToChangeProfilePic))
-//        gestureTap.numberOfTouchesRequired = 1
-       //gestureTap.numberOfTapsRequired = 1
+        //        gestureTap.numberOfTouchesRequired = 1
+        //gestureTap.numberOfTapsRequired = 1
         profileImageView.addGestureRecognizer(gestureTap)
         
         
@@ -300,7 +315,7 @@ extension RegisterVC : UIImagePickerControllerDelegate , UINavigationControllerD
         actionSheet.addAction(UIAlertAction(title:"Take Photo",
                                             style: .default,
                                             handler: {[weak self]_ in
-                                                  guard let self = self else {return}
+                                                guard let self = self else {return}
                                                 self.presentCamera()
                                                 
         }))
@@ -309,7 +324,7 @@ extension RegisterVC : UIImagePickerControllerDelegate , UINavigationControllerD
                                             handler: {[weak self] _ in
                                                 guard let self = self else {return}
                                                 self.presentPhotoPicker()
-                                            
+                                                
         }))
         
         present(actionSheet , animated: true)

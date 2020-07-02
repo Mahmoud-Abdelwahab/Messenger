@@ -8,10 +8,11 @@
 
 import UIKit
 import Firebase
-
+import FBSDKLoginKit
+import GoogleSignIn
 class LoginVC: UIViewController {
     
-    
+    private var loginObserver : NSObjectProtocol?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Login"
@@ -28,6 +29,10 @@ class LoginVC: UIViewController {
         emailField.delegate    = self
         passwordField.delegate = self
         
+        //FB buton delegate
+        
+        fBLoginButton.delegate = self
+        
         //add subView
         view.addSubview(scrollView)
         scrollView.addSubview(profileImageView)
@@ -36,8 +41,34 @@ class LoginVC: UIViewController {
         scrollView.addSubview(loginButton)
         
         
+        
+        /// FBLogin
+      
+        fBLoginButton.center = view.center
+        scrollView.addSubview(fBLoginButton)
+        
+        //google sign in
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        scrollView.addSubview(googlelogInBtn)
+        
+        
+        // Notifications
+                                                                        // main thread
+        loginObserver =  NotificationCenter.default.addObserver(forName:.didLogInNotifiacation, object: nil, queue: .main, using: {
+           [weak self] _ in
+        guard let self = self else{return}
+          self.dismiss(animated: true)
+        // then you need to clean this observer form the memeory  show deinit below
+            
+        })
+        
     }
     
+    deinit {
+        if let loginObserver = loginObserver {
+            NotificationCenter.default.removeObserver(loginObserver)
+        }
+    }
     
     private let scrollView : UIScrollView    = {
         let  scrollView                      = UIScrollView()
@@ -96,7 +127,11 @@ class LoginVC: UIViewController {
     
     private let loginButton : UIButton             = {
         let button                                 = UIButton()
-        button.backgroundColor                     = .gray
+        if #available(iOS 13.0, *) {
+            button.backgroundColor                     = .link
+        } else {
+            // Fallback on earlier versions
+        }
         button.layer.cornerRadius                  = 12
         button.layer.masksToBounds                 = true
         button.titleLabel?.font                    = .systemFont(ofSize: 20 , weight : .bold)
@@ -104,6 +139,18 @@ class LoginVC: UIViewController {
         button.setTitleColor(.white, for: .normal)
         return button
     }()
+    
+    
+    private let fBLoginButton : FBLoginButton = {
+        let fbButton = FBLoginButton()
+     
+        fbButton.permissions = ["public_profile", "email"]
+        //public_profile include firstName and lastName and the email include email
+        return fbButton
+    }()
+    
+    private let googlelogInBtn = GIDSignInButton()
+    
     ///******************** this is anoher way to make aconstraints u can use  constraints it's better i guess NSLayoutConstariants.activate([]) and  don't forget to put translatesAutoresizingMaskIntoConstraints = false
     // in the func u can give the frame for the view elements
     override func viewDidLayoutSubviews() {
@@ -118,7 +165,11 @@ class LoginVC: UIViewController {
         
         loginButton.frame = CGRect(x: 30, y: passwordField.bottom + 15, width: scrollView.width-60, height: 52)
         
+        fBLoginButton.frame = CGRect(x: 30, y: loginButton.bottom + 15, width: scrollView.width-60, height: 52)
         
+        googlelogInBtn.frame = CGRect(x: 30, y: fBLoginButton.bottom + 15, width: scrollView.width-60, height: 52)
+//        fBLoginButton.center = scrollView.center
+//        fBLoginButton.frame.origin.y = loginButton.bottom + 20
     }
     
     @objc func didTapRegister(){
@@ -145,7 +196,7 @@ class LoginVC: UIViewController {
             }
             
             print("loged In successfullly ...")
-            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true)
             
         }
     }
@@ -187,4 +238,39 @@ extension LoginVC : UITextFieldDelegate {
         
         return true
     }
+}
+
+
+extension LoginVC : LoginButtonDelegate {
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
+     //no operaation
+    }
+    
+    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        guard  let token = result?.token?.tokenString else {
+            print("User failed to login with Facebook ")
+            return
+        }
+        //we will send this access token to firebase  to get a credentianls
+        let credential = FacebookAuthProvider.credential(withAccessToken : token)
+        
+        FirebaseAuth.Auth.auth().signIn(with: credential) {[weak self] (authResult, error) in
+            guard let self = self else{return}
+            guard authResult != nil , error == nil else {
+                if let error = error {
+                    print("faceBook credentials login failed  , MFA may be needed - :\(error)")
+                }
+                return
+            }
+            print("successfully logged user in ")
+            
+            self.dismiss(animated: true)
+
+        }
+        
+        
+    }
+    
+    
+    
 }

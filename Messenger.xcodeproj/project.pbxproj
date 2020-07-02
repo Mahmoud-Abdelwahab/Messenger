@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		01BFD11833F088114324233B /* Pods_Messenger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A512B7D69E274B1C86BDE92 /* Pods_Messenger.framework */; };
 		BB21B86424AADCEA000BDF95 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB21B86324AADCEA000BDF95 /* GoogleService-Info.plist */; };
+		BB21B86624AAF7B7000BDF95 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB21B86524AAF7B7000BDF95 /* DataBaseManager.swift */; };
 		BB22037224A970A100595364 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB22037124A970A100595364 /* AppDelegate.swift */; };
 		BB22037424A970A100595364 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB22037324A970A100595364 /* SceneDelegate.swift */; };
 		BB22037624A970A100595364 /* ConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB22037524A970A100595364 /* ConversationVC.swift */; };
@@ -29,6 +30,7 @@
 		982595725D9D03B91870E18D /* Pods-Messenger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messenger.debug.xcconfig"; path = "Target Support Files/Pods-Messenger/Pods-Messenger.debug.xcconfig"; sourceTree = "<group>"; };
 		A8A48357DD8CAFCB9385E7CF /* Pods-Messenger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messenger.release.xcconfig"; path = "Target Support Files/Pods-Messenger/Pods-Messenger.release.xcconfig"; sourceTree = "<group>"; };
 		BB21B86324AADCEA000BDF95 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BB21B86524AAF7B7000BDF95 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		BB22036E24A970A100595364 /* Messenger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messenger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB22037124A970A100595364 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB22037324A970A100595364 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				BB22037124A970A100595364 /* AppDelegate.swift */,
 				BB22037324A970A100595364 /* SceneDelegate.swift */,
 				BB267BC824AA46D1003A6DAA /* Extentions.swift */,
+				BB21B86524AAF7B7000BDF95 /* DataBaseManager.swift */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -183,6 +186,7 @@
 				BB22036B24A970A100595364 /* Frameworks */,
 				BB22036C24A970A100595364 /* Resources */,
 				89A847EA7175F8AD153B173B /* [CP] Embed Pods Frameworks */,
+				980543421D8F729E6D4F01A1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -258,6 +262,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Messenger/Pods-Messenger-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		980543421D8F729E6D4F01A1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Messenger/Pods-Messenger-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Messenger/Pods-Messenger-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Messenger/Pods-Messenger-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		CFF75E72A36384F1EB9DECDE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -297,6 +318,7 @@
 				BB22038E24A970FE00595364 /* VideoPlayerVC.swift in Sources */,
 				BB22039724A9732A00595364 /* PhotoViewerVC.swift in Sources */,
 				BB22039024A9712100595364 /* LoginVC.swift in Sources */,
+				BB21B86624AAF7B7000BDF95 /* DataBaseManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

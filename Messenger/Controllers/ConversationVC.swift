@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 enum Keys { static let loginKey = "LOGGED_IN"}
 
@@ -14,22 +15,26 @@ class ConversationVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .green
         
+    
     }
   
   
     override func viewDidAppear(_ animated: Bool) {
-        
-        let isLogedIn = UserDefaults.standard.bool(forKey: Keys.loginKey)
-        
-        if !isLogedIn{
-            let loginVC = LoginVC()
-            let navControler = UINavigationController(rootViewController: loginVC)
-            navControler.modalPresentationStyle = .fullScreen
-            present(navControler , animated: false)//false to cancel the delay caused by the animation
-            
-        }
+        validateAuth()
     }
 
+    func validateAuth() {
+        
+        if FirebaseAuth.Auth.auth().currentUser == nil{
+                    let loginVC = LoginVC()
+                    let navControler = UINavigationController(rootViewController: loginVC)
+                    navControler.modalPresentationStyle = .fullScreen
+                    present(navControler , animated: false)//false to cancel the delay caused by the animation
+        
+                }
+    }
+    
 }
 
