@@ -18,12 +18,17 @@ final class DataBaseManager {
     
     private init(){}
     
+    static func safeEmail(emailAddress : String) -> String{
+        var safeEmail = emailAddress.replacingOccurrences(of: ".", with: "_")
+        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "_" )
+    return safeEmail
+    }
     
 }
 
 // MARK: - Account Managment
 extension DataBaseManager{
-     /// this function to validate user if his email eists before creating his account
+    /// this function to validate user if his email eists before creating his account
     public func isUserExists (With email : String , completion : @escaping (Bool)->Void){
         
         //this because i put email as a root here  aan dthe root doesn'tcotains [@ ,. ,[,],]
@@ -40,11 +45,18 @@ extension DataBaseManager{
     }
     
     /// insert ne user to database
-    public func insertUser(with user : ChatAppUser){
+    public func insertUser(with user : ChatAppUser, completion : @escaping (Bool)->Void){
         database.child(user.safeEmail).setValue([
             "firstName" : user.firstName ,
             "lastName"  : user.lastName ,
-        ])
+            ],withCompletionBlock: {error , _ in
+                guard error == nil else {
+                    print("failed to write to database")
+                    completion(false)
+                    return
+                }
+                completion(true)
+        })
     }
 }
 
@@ -59,5 +71,9 @@ struct ChatAppUser : Codable {
         safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
         return safeEmail
     }
-   // let profilePictureUrl : String
+    // /images/ma_hn2013_live_com_profile_picture.png
+    
+    var profilePictureFileName : String {
+        return "\(safeEmail)_profile_picture.png"
+    }
 }

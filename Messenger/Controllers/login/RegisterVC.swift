@@ -13,7 +13,7 @@ class RegisterVC: UIViewController {
     
     
     private let spinner = JGProgressHUD(style: .dark)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemPink
@@ -86,7 +86,7 @@ class RegisterVC: UIViewController {
     }()
     
     
-    private let passwordField : UITextField    = {
+    private lazy var passwordField : UITextField    = {
         let field                            = UITextField()
         field.layer.cornerRadius             = 12
         field.layer.borderWidth              = 1
@@ -201,7 +201,7 @@ class RegisterVC: UIViewController {
         
         //show custom spinner
         spinner.show(in: view)
-
+        
         
         //FireBase registration
         FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) {[weak self](result, error) in
@@ -212,10 +212,10 @@ class RegisterVC: UIViewController {
             //check user existance before
             DataBaseManager.shared.isUserExists(With: email) {[weak self] (isExists) in
                 guard let self = self else {return}
-               
+                
                 DispatchQueue.main.async {
-                                   self.spinner.dismiss()
-                               }
+                    self.spinner.dismiss()
+                }
                 
                 guard !isExists else {
                     // user already Exists
@@ -228,7 +228,27 @@ class RegisterVC: UIViewController {
                     return
                 }
                 
-                DataBaseManager.shared.insertUser(with: ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email))
+                let chatUser =  ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: email)
+                DataBaseManager.shared.insertUser(with:chatUser, completion:{success in
+                    
+                    if success {
+                        //upload Image
+                        guard let image = self.profileImageView.image , let data = image.pngData() else{
+                                 return
+                                }
+                        let fileName = chatUser.profilePictureFileName
+                        StorageManager.shared.uploadProfilPicture(with: data, fileName: fileName , completion : { (result) in
+                            
+                            switch result {
+                            case .success(let downloadURl):
+                                UserDefaults.standard.set(downloadURl, forKey: "profile_picture_URL")
+                                print(downloadURl)
+                            
+                            case .failure(let error): print("Storage manager error : \(error)")
+                            }
+                        })
+                    }
+                })
                 self.dismiss(animated: true)
                 
                 

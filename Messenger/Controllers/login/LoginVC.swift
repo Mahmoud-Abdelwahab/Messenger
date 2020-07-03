@@ -190,7 +190,7 @@ class LoginVC: UIViewController {
         }
         spinner.show(in: view)
         //FireBase login
-        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) {[weak self] (authResult, error) in
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password ,completion:  {[weak self] (authResult, error) in
             
             guard let self = self else{return}
             
@@ -202,10 +202,14 @@ class LoginVC: UIViewController {
             }
             
             print("loged In successfullly ...")
+            
+            UserDefaults.standard.set(email, forKey: "email")
+            
             self.dismiss(animated: true)
             
-        }
+        })
     }
+    
     
     
     // to dismiss keyboard
@@ -260,7 +264,7 @@ extension LoginVC : LoginButtonDelegate {
         //we will send this access token to firebase  to get a credentianls
         let credential = FacebookAuthProvider.credential(withAccessToken : token)
         
-        FirebaseAuth.Auth.auth().signIn(with: credential) {[weak self] (authResult, error) in
+        FirebaseAuth.Auth.auth().signIn(with: credential ,completion:  {[weak self] (authResult, error) in
             guard let self = self else{return}
             guard authResult != nil , error == nil else {
                 if let error = error {
@@ -270,9 +274,11 @@ extension LoginVC : LoginButtonDelegate {
             }
             print("successfully logged user in ")
             
+          //   UserDefaults.standard.set(email, forKey: "email")
+            
             self.dismiss(animated: true)
 
-        }
+        })
         
         
     }
